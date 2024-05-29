@@ -29,7 +29,7 @@ console.log(info);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 console.log(root);
 
-root.render(1);
+root.render(heading);
 
 // Things to research
 // React.createElement()
