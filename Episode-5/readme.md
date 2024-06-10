@@ -1,6 +1,10 @@
 # React Hooks
 
-React Hooks are normal javascript function.
+It's simply a regular JavaScript function. However, it
+becomes powerful when used within React, as it's provided to us
+by React itself. These pre-built functions have underlying logic
+developed by React developers. When we install React via npm, we
+gain access to these superpowers.
 
 ### Two Importants Hooks
 
@@ -29,3 +33,16 @@ React Hooks are normal javascript function.
 - Diff. Algorithm finds the difference between the previous
   virtual dom and updated virtual dom.
 - Now, React will upgrade the actual dom.
+
+# NOTE:
+
+- The crucial point about State variables is that
+  whenever they update, React triggers a reconciliation
+  cycle and re-renders the component.
+- This means that as soon as the data layer changes,
+  React promptly updates the UI layer. The data layer is
+  always kept in sync with the UI layer.
+- To achieve this rapid operation, React employs a
+  reconciliation algorithm, also known as the diffing
+  algorithm or React-Fibre which we will delve into further
+  below.
