@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import RestaurantCard from "./RestaurantCard";
+import React, { useEffect, useRef, useState, useContext } from "react";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestraunt] = useState([]);
@@ -11,9 +12,13 @@ const Body = () => {
   const [searchText, setSearchText] = useState("");
   const inputRef = useRef(null);
 
+  const { setUsername, loggedInUser } = useContext(UserContext);
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
   const fetchData = async () => {
     const data = await fetch(
@@ -81,27 +86,16 @@ const Body = () => {
             Search
           </button>
         </div>
-        <button
-          className="filter-btn"
-          onClick={() => {
-            const filteredList = listOfRestaurants.filter(
-              (restaurant) => restaurant.info.avgRating > 4.2
-            );
-            setFilteredRestaurants(filteredList);
-          }}
-        >
-          Top Rated Restaurants
-        </button>
-        {filteredRestaurants.length < listOfRestaurants.length ? (
-          <button
-            className="cross-btn"
-            onClick={() => {
-              setFilteredRestaurants(listOfRestaurants);
-              setSearchText("");
-              inputRef.current.focus();
-            }}
-          ></button>
-        ) : null}
+
+        <div>
+          <label>Username: </label>
+          <input
+            type="text"
+            className="border border-black rounded mt-4 p-2"
+            value={loggedInUser}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
       </div>
       <div className="restaurant-list">
         {filteredRestaurants.length === 0 ? (
@@ -113,7 +107,11 @@ const Body = () => {
               key={restaurant.info.id}
               className="custom-link"
             >
-              <RestaurantCard restaurant={restaurant} />
+              {restaurant.info.avgRating > 4.5 ? (
+                <RestaurantCardPromoted restaurant={restaurant} />
+              ) : (
+                <RestaurantCard restaurant={restaurant} />
+              )}
             </Link>
           ))
         )}
