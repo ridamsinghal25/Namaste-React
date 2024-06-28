@@ -3,9 +3,11 @@ import { APP_LOGO } from "../utils/constants.js";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus.jsx";
 import UserContext from "../utils/UserContext.js";
+import { useSelector } from "react-redux";
 
 export const Header = () => {
   const [btnNameReact, setBtnNameReact] = useState("Login");
+  const cartItems = useSelector((store) => store.cart.items);
 
   const { loggedInUser } = useContext(UserContext);
 
@@ -30,6 +32,9 @@ export const Header = () => {
           </Link>
           <Link to="/grocery" className="custom-link">
             Grocery
+          </Link>
+          <Link to="/cart" className="custom-link font-bold text-xl">
+            Cart ({cartItems.length})
           </Link>
           <li>
             <button
